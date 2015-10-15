@@ -1,0 +1,154 @@
+
+const int moistureAO = 0;
+const int moistureA1 = 1;
+const int moistureA2 = 2;
+const int moistureA3 = 3;
+
+int mA0 = 0;
+int mA1 = 0;
+int mA2 = 0;
+int mA3 = 0;
+
+String mA0_string = " ";
+String mA1_string = " ";
+String mA2_string = " ";
+String mA3_string = " ";
+
+void setup()
+{
+    Serial.begin(9600);
+    Serial.println(" ");
+    Serial.println(" Hello! ");
+    delay(2500);
+    Serial.println(" ");
+    Serial.println("Soil moisture conditions for available sensors:");
+    Serial.println(" ");
+    delay(2500);
+    
+    pinMode(moistureAO, INPUT); //A0
+    pinMode(moistureA1, INPUT); //A1
+    pinMode(moistureA2, INPUT); //A2
+    pinMode(moistureA3, INPUT); //A3
+  
+}
+
+
+String soilCondition(int mlvl)
+{
+  
+  if(mlvl >= 0 && mlvl < 377.2)
+  {
+        return("Moisture level is >40%. It is really saturated! No water needed");
+  }
+  
+  if(mlvl >= 377.2 && mlvl < 410)
+  {
+        return("Moisture level is 40% and no water needed");
+  }
+  
+  if(mlvl >= 410 && mlvl < 438.7) 
+  {
+        return("Moisture level is at 35% and no water needed");
+  }
+  
+  if(mlvl >= 438.7 && mlvl < 446.9)
+  {
+        return("Moisture level is at 30% and no water needed");
+  }
+  
+  if(mlvl >= 446.9 && mlvl < 457.15)
+  {
+        return("Moisture level is at 27% and some water needed");
+  }
+  
+  if(mlvl >= 457.15 && mlvl < 471.5)
+  {
+        return("Moisture level is at 19% and some water needed");
+  }
+  
+  if(mlvl >= 471.5 && mlvl < 492)
+  {
+        return("Moisture level is at 16% and water needed");
+  }
+  
+  if(mlvl >= 492 && mlvl < 512.5)
+  {
+        return("Moisture level is at 14% and water needed");
+  }
+  
+  if(mlvl >= 512.5 && mlvl < 528.9)
+  {
+        return("Moisture level is at 12%. Please water the soil");
+  }
+  
+  if(mlvl >= 528.9 && mlvl < 539.15)
+  {
+        return("Moisture level is at 10%. Please water the dry soil");
+  }
+  
+  if(mlvl >= 539.15 && mlvl < 594.5)
+  {
+        return("Moisture level is at 7%. Please water the dry soil");
+  }
+  
+  if(mlvl >= 594.5 && mlvl < 703.15)
+  {
+        return("Moisture level is at 5%. Please water the dry soil");
+  }
+  
+  if(mlvl >= 703.15 && mlvl < 713.4)
+  {
+        return("Moisture level is at 2%. Please water the dry soil");
+  }
+  
+  if(mlvl >= 713.4 && mlvl < 752.35)
+  {
+        return("Moisture level is at 1%. Please water the extremely dry soil");
+  }
+  
+  if(mlvl >= 752.35 && mlvl < 1024)
+  {
+        return("Moisture level is at 0% and the soil is extremely dry! Please water the soil");
+  }
+  
+    
+}
+
+
+void loop()
+{
+  mA0 = analogRead(moistureAO);
+  mA1 = analogRead(moistureA1);
+  mA2 = analogRead(moistureA2);
+  mA3 = analogRead(moistureA3);
+   
+  mA0_string = soilCondition(mA0);
+  mA0_string = mA0_string + " for soil 1 with sensor A0";
+  Serial.println(mA0_string);
+  Serial.println(" ");
+  delay(3500);
+  
+  mA1_string = soilCondition(mA1);
+  mA1_string = mA1_string + " for soil 2 with sensor A1";
+  Serial.println(mA1_string);
+  Serial.println(" ");
+  delay(3500);
+  
+  mA2_string = soilCondition(mA2);
+  mA2_string = mA2_string + " for soil 3 with sensor A2";
+  Serial.println(mA2_string);
+  Serial.println(" ");
+  delay(3500);
+  
+  mA3_string = soilCondition(mA3);
+  mA3_string = mA3_string + " for soil 4 with sensor A3";
+  Serial.println(mA3_string);
+  Serial.println(" ");
+  
+  Serial.println(" ");
+  Serial.println(" ");
+  
+  delay(10250); 
+}
+
+
